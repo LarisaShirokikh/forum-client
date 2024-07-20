@@ -1,0 +1,33 @@
+export interface IUser {
+  id: number;
+  name: string;
+  avatar?: string;
+  cover?: string;
+  surname?: string;
+  email: string;
+  password: string;
+  description?: string;
+  city?: string;
+  baby?: number;
+  work?: string;
+  website?: string;
+  createdAt: Date;
+  karma?: number;
+  roles: ("USER" | "MODERATOR" | "ADMIN" | "SUPERADMIN" | "ORGANIZATOR")[];
+  updatedAt: Date;
+  reviews?: Review[];
+  purchases?: Purchase[];
+  topics?: Topic[];
+  videos?: Video[];
+  stories?: Story[];
+  posts?: Post[];
+  groups?: Group[];
+  medalsReceived?: Medal[];
+  followers?: Follower[];
+  followings?: Follower[];
+  comments?: Comment[];
+  confirmationCodes?: ConfirmationCode[];
+  likes?: Like[];
+  products?: Product[];
+  photos?: Photo[];
+}

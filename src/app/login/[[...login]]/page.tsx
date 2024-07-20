@@ -1,0 +1,9 @@
+import SignIn from "@/components/SignIn";
+
+export default function Page() {
+  return (
+    <div className="h-[calc(100vh-96px)] flex items-center justify-center">
+      <SignIn />
+    </div>
+  );
+}
