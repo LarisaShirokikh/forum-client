@@ -1,29 +1,26 @@
+// components/Navbar.tsx
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import SignedIn from "./SignedIn";
+import LoginModal from "./LoginModal";
 import UserButton from "./UserButton";
-import SignedOut from "./SignedOut";
-import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
+import { useUser } from "@/app/context/UserContext";
 
 const Navbar = () => {
-  const { user } = useUser();
-  useEffect(() => {
-    console.log("Navbar user state:", user); // Debug log
-  }, [user]);
+  const { user, openLoginModal, isLoginModalOpen, closeLoginModal } = useUser();
+
+  
 
   return (
-    <div className="h-24 flex items-center justify-between">
-      {/* LEFT */}
+    <div className="h-20 flex items-center justify-between">
       <div className="md:hidden lg:block w-[20%]">
-        <Link href="/" className="font-bold text-xl text-blue-600">
-          МАМАФОРУМ
+        <Link href="/" className="font-bold text-3xl text-gray-600">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-pink-400 to-yellow-400">
+            Mamski
+          </span>
         </Link>
       </div>
-      {/* CENTER */}
       <div className="hidden md:flex w-[50%] text-sm items-center justify-between">
-        {/* LINKS */}
         <div className="flex gap-6 text-gray-600">
           <Link href="/" className="flex items-center gap-2">
             <Image
@@ -56,42 +53,44 @@ const Navbar = () => {
             <span>Поиск</span>
           </Link>
         </div>
-        <div className="hidden xl:flex p-2 bg-slate-100 items-center rounded-xl">
+        {/* <div className="hidden xl:flex p-2 bg-slate-100 items-center rounded-xl">
           <input
             type="text"
             placeholder="search..."
             className="bg-transparent outline-none"
           />
           <Image src="/search.png" alt="" width={14} height={14} />
-        </div>
+        </div> */}
       </div>
-      {/* RIGHT */}
       <div className="w-[30%] flex items-center gap-4 xl:gap-8 justify-end">
-        {/* <ClerkLoading> */}
-        {/* <div className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-gray-500 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" /> */}
-        {/* </ClerkLoading>
-        <ClerkLoaded> */}
-        <SignedIn>
-          <div className="cursor-pointer">
-            <Image src="/people.png" alt="" width={24} height={24} />
-          </div>
-          <div className="cursor-pointer">
-            <Image src="/messages.png" alt="" width={20} height={20} />
-          </div>
-          <div className="cursor-pointer">
-            <Image src="/notifications.png" alt="" width={20} height={20} />
-          </div>
-          <UserButton />
-        </SignedIn>
-        <SignedOut>
+        {user ? (
+          <>
+            <div className="cursor-pointer">
+              <Image src="/people.png" alt="" width={24} height={24} />
+            </div>
+            <div className="cursor-pointer">
+              <Image src="/messages.png" alt="" width={20} height={20} />
+            </div>
+            <div className="cursor-pointer">
+              <Image src="/notifications.png" alt="" width={20} height={20} />
+            </div>
+            <UserButton />
+          </>
+        ) : (
           <div className="flex items-center gap-2 text-sm">
             <Image src="/login.png" alt="" width={20} height={20} />
-            <Link href="/login">Войти</Link>
+            <button
+              onClick={() => {
+                console.log("Login button clicked");
+                openLoginModal();
+              }}
+            >
+              Войти
+            </button>
           </div>
-          {/* </ClerkLoaded> */}
-        </SignedOut>
-        {/* <MobileMenu />  */}
+        )}
       </div>
+      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </div>
   );
 };

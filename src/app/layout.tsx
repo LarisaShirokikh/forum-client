@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { UserProvider } from "@/context/UserContext";
+import Navbar from "@/app/components/Navbar";
+import { UserProvider } from "@/app/context/UserContext";
+import LeftMenu from "@/app/components/LeftMenu";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,16 +20,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
         <UserProvider>
           <div className="w-full bg-white px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
             <Navbar />
           </div>
-          <div className=" bg-slate-100 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
-            {children}
+          <div className="flex flex-1 px-2 md:px-4 lg:px-8 xl:px-16 2xl:px-32">
+            <div className="hidden xl:block w-[30%]">
+              <LeftMenu type="home" />
+            </div>
+            <div className="w-full overflow-y-auto ">{children}</div>
+            {/* <div className="hidden lg:block w-[30%]">
+              правое меню
+               <RightMenu /> 
+            </div> */}
           </div>
         </UserProvider>
       </body>
     </html>
   );
 }
+
+
+

@@ -1,96 +1,109 @@
 import Link from "next/link";
 import Image from "next/image";
 import Ad from "./Ad";
+import { Activity, BookCheck, CalendarClock, ChefHat, Dices, Flame, Laugh, Newspaper, Sailboat, Trophy } from "lucide-react";
 import ProfileCard from "./ProfileCard";
 
 const LeftMenu = ({ type }: { type: "home" | "profile" }) => {
   return (
     <div className="flex flex-col gap-6">
-      {type === "home" && "Профиль"
-      // <ProfileCard />
-      }
-      <div className="p-4 bg-white rounded-lg shadow-md text-sm text-gray-500 flex flex-col gap-2">
+      {/* {type === "home" && "Профиль" <ProfileCard /> } */}
+      <div className="p-2  text-m text-gray-500 flex flex-col gap-2">
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/posts.png" alt="" width={20} height={20} />
-          <span>My Posts</span>
+          <Flame color="#FF1493" />
+          <span>Популярное</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/activity.png" alt="" width={20} height={20} />
-          <span>Activity</span>
+          <Newspaper color="#00FFFF" />
+          <span>Новое</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/market.png" alt="" width={20} height={20} />
-          <span>Marketplace</span>
+          <BookCheck />
+          <span>Развитие и Обучение</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/events.png" alt="" width={20} height={20} />
-          <span>Events</span>
+          <Activity />
+          <span>Здоровье и Уход</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/albums.png" alt="" width={20} height={20} />
-          <span>Albums</span>
+          <Dices />
+          <span>Развлечения и Игры</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/videos.png" alt="" width={20} height={20} />
-          <span>Videos</span>
+          <Laugh />
+          <span>Психология и Эмоции</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
           <Image src="/news.png" alt="" width={20} height={20} />
-          <span>News</span>
+          <span>Творчество и Хобби</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/courses.png" alt="" width={20} height={20} />
-          <span>Courses</span>
+          <Trophy />
+          <span>Спорт и Активности</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/lists.png" alt="" width={20} height={20} />
-          <span>Lists</span>
+          <ChefHat />
+          <span>Рецепты и Питание</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
         >
-          <Image src="/settings.png" alt="" width={20} height={20} />
-          <span>Settings</span>
+          <Sailboat />
+          <span>Путешествия и Отдых</span>
+        </Link>
+
+        <Link
+          href="/"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+        >
+          <Newspaper />
+          <span>Новости и Статьи</span>
+        </Link>
+        <Link
+          href="/"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+        >
+          <CalendarClock />
+          <span>События и Мероприятия</span>
         </Link>
       </div>
-      <Ad size="sm" />
     </div>
   );
 };

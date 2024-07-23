@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  height: 100%;
+}
 
 .scrollbar-hide::-webkit-scrollbar{
   display: none;
@@ -10,3 +13,26 @@
 .scrollbar-hide{
   scrollbar-width: none;
 }
+
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: #ccc;
+}
+
+/* Убираем полосу прокрутки для всех элементов */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Убираем полосу прокрутки для Firefox */
+* {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Добавляем плавную прокрутку */
+html {
+  scroll-behavior: smooth;
+}
+
