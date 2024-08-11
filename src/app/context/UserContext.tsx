@@ -7,27 +7,12 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { User, UserContextType } from "@/interface/User";
+import { getProfile, loginUser } from "../db/apiUser";
 
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  avatar: string;
-}
 
-interface UserContextType {
-  user: User | null;
-  setUser: (user: User | null) => void;
-  loading: boolean;
-  isLoginModalOpen: boolean;
-  openLoginModal: () => void;
-  closeLoginModal: () => void;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
-}
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -42,13 +27,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       try {
         const token = Cookies.get("accessToken");
         if (token) {
-          const response = await axios.get(
-            "http://localhost:4000/api/auth/profile",
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-          setUser(response.data);
+          const profile = await getProfile(token);
+          setUser(profile as unknown as User);
         }
       } catch (error) {
         console.error("User not authenticated", error);
@@ -61,12 +41,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/auth/login",
-        { email, password }
-      );
-      setUser(response.data);
-      Cookies.set("accessToken", response.data.token, { expires: 7 });
+      const { user, token } = await loginUser(email, password);
+      setUser(user);
+      Cookies.set("accessToken", token, { expires: 7 });
       closeLoginModal();
       router.push("/");
     } catch (error) {

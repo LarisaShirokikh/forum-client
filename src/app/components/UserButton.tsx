@@ -1,17 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
 import { useUser } from "@/app/context/UserContext";
 import UserMenu from "./UserMenu";
+import { getRandomColor } from "@/lib/lib";
 
-const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
+const MEDIA_URL = process.env.NEXT_PUBLIC_API_MEDIA_URL;
 
 const UserButton: React.FC = () => {
   const avatarColor = getRandomColor();
@@ -32,14 +25,12 @@ const UserButton: React.FC = () => {
     : user?.email.charAt(0).toUpperCase();
 
   return (
-    <div className="flex items-center gap-2 cursor-pointer p-5">
+    <div className="flex items-center gap-2 cursor-pointer p-5 ">
       {user?.avatar ? (
-        <Image
-          src={user?.avatar}
-          alt="User Avatar"
-          width={32}
-          height={32}
-          className="rounded-full"
+        <img
+          src={`${MEDIA_URL}${user.avatar}`}
+          alt="`${user.avatar}"
+          className="w-10 h-10 rounded-full object-cover"
           onClick={toggleMenu}
         />
       ) : (

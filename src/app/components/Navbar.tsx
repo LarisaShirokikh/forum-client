@@ -1,18 +1,17 @@
-// components/Navbar.tsx
 "use client";
 import Link from "next/link";
 import Image from "next/image";
 import LoginModal from "./LoginModal";
 import UserButton from "./UserButton";
 import { useUser } from "@/app/context/UserContext";
+import { useTheme } from "@/app/context/ThemeContext";
 
 const Navbar = () => {
   const { user, openLoginModal, isLoginModalOpen, closeLoginModal } = useUser();
-
-  
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="h-20 flex items-center justify-between">
+    <div className=" h-20 flex items-center justify-between">
       <div className="md:hidden lg:block w-[20%]">
         <Link href="/" className="font-bold text-3xl text-gray-600">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-pink-400 to-yellow-400">
@@ -63,9 +62,12 @@ const Navbar = () => {
         </div> */}
       </div>
       <div className="w-[30%] flex items-center gap-4 xl:gap-8 justify-end">
+        {/* <button onClick={toggleTheme} className="p-2 bg-gray-200 rounded">
+          {theme === "light" ? "Dark Mode" : "Light Mode"}
+        </button> */}
         {user ? (
           <>
-            <div className="cursor-pointer">
+            {/* <div className="cursor-pointer">
               <Image src="/people.png" alt="" width={24} height={24} />
             </div>
             <div className="cursor-pointer">
@@ -73,7 +75,7 @@ const Navbar = () => {
             </div>
             <div className="cursor-pointer">
               <Image src="/notifications.png" alt="" width={20} height={20} />
-            </div>
+            </div> */}
             <UserButton />
           </>
         ) : (

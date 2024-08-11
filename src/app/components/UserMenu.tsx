@@ -2,7 +2,6 @@
 "use client";
 import { BookCheck, LogOut, PlusCircle, Settings, User, UsersRound } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useUser } from "../context/UserContext";
 
 interface MenuProps {
@@ -11,7 +10,6 @@ interface MenuProps {
 }
 
 const UserMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
-  const [isCreatePostModalOpen, setCreatePostModalOpen] = useState(false);
   const { logout } = useUser();
   const router = useRouter();
   if (!isOpen) return null;
@@ -22,10 +20,7 @@ const UserMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const handleCreatePost = () => {
-    setCreatePostModalOpen(true);
-    onClose();
-  };
+
 
   const handleLogout = async () => {
     logout();
@@ -35,7 +30,7 @@ const UserMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <div className="absolute w-80 top-20 text-gray-700 right-10 bg-white shadow-md rounded-xl p-2">
+      <div className="absolute w-80 top-20 text-gray-700 right-10 bg-white shadow-md rounded-xl p-2 z-50">
         <ul>
           <li
             onClick={() => handleRedirect("/myProfile")}

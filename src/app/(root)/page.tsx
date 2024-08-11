@@ -1,6 +1,4 @@
 import Feed from "@/app/components/Feed";
-import LeftMenu from "@/app/components/LeftMenu";
-import Image from "next/image";
 
 export default function Home() {
   return (

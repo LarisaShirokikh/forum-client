@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useUser } from "../context/UserContext";
+import { createPost } from "../db/apiPost";
 
 export const CreatePostForm = () => {
   const [title, setTitle] = useState("");
@@ -14,42 +15,34 @@ export const CreatePostForm = () => {
   const { user } = useUser();
   const router = useRouter();
 
-  const onDrop = (
-    acceptedFiles: File[],
-    type: "photos" | "videos" | "files"
-  ) => {
-    if (type === "photos") {
-      setPhotos((prevFiles) => [...prevFiles, ...acceptedFiles]);
-    } else if (type === "videos") {
-      setVideos((prevFiles) => [...prevFiles, ...acceptedFiles]);
-    } else if (type === "files") {
-      setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
-    }
+  const onDrop = (acceptedFiles: File[]) => {
+    const newPhotos: File[] = [];
+    const newVideos: File[] = [];
+    const newFiles: File[] = [];
+
+    acceptedFiles.forEach((file) => {
+      if (file.type.startsWith("image/")) {
+        newPhotos.push(file);
+      } else if (file.type.startsWith("video/")) {
+        newVideos.push(file);
+      } else if (file.type === "application/pdf") {
+        newFiles.push(file);
+      }
+    });
+
+    setPhotos((prevFiles) => [...prevFiles, ...newPhotos]);
+    setVideos((prevFiles) => [...prevFiles, ...newVideos]);
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
-  const { getRootProps: getPhotoRootProps, getInputProps: getPhotoInputProps } =
-    useDropzone({
-      onDrop: (acceptedFiles) => onDrop(acceptedFiles, "photos"),
-      accept: {
-        "image/*": [".jpeg", ".jpg", ".png", ".gif"],
-      },
-    });
-
-  const { getRootProps: getVideoRootProps, getInputProps: getVideoInputProps } =
-    useDropzone({
-      onDrop: (acceptedFiles) => onDrop(acceptedFiles, "videos"),
-      accept: {
-        "video/*": [".mp4", ".mov", ".avi", ".mkv"],
-      },
-    });
-
-  const { getRootProps: getFileRootProps, getInputProps: getFileInputProps } =
-    useDropzone({
-      onDrop: (acceptedFiles) => onDrop(acceptedFiles, "files"),
-      accept: {
-        "application/pdf": [".pdf"],
-      },
-    });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: {
+      "image/*": [".jpeg", ".jpg", ".png", ".gif"],
+      "video/*": [".mp4", ".mov", ".avi", ".mkv"],
+      "application/pdf": [".pdf"],
+    },
+  });
 
   const removeFile = (file: File, type: "photos" | "videos" | "files") => {
     if (type === "photos") {
@@ -81,11 +74,7 @@ export const CreatePostForm = () => {
     }
 
     try {
-      await axios.post("http://localhost:4000/api/post", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await createPost(formData);
       router.push("/");
     } catch (error) {
       console.error("Error creating post:", error);
@@ -96,21 +85,26 @@ export const CreatePostForm = () => {
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <div
-          {...getPhotoRootProps({
+          {...getRootProps({
             className:
-              "border-dashed border-2 border-gray-400 p-4 rounded-lg text-center cursor-pointer mb-4",
+              "border-dashed border-2 border-gray-300 p-4 rounded-lg text-center cursor-pointer mb-4",
           })}
         >
-          <input {...getPhotoInputProps()} />
-          <p>Перетащите фото сюда или нажмите для загрузки</p>
+          <input {...getInputProps()} />
+          <p>Перетащите фото, видео или файлы сюда или нажмите для загрузки</p>
         </div>
+
         <div className="mb-4">
           {photos.map((file) => (
             <div
               key={file.name}
               className="flex justify-between items-center mb-2"
             >
-              <p>{file.name}</p>
+              <img
+                src={URL.createObjectURL(file)}
+                alt={file.name}
+                className="w-32 h-32 object-cover mr-4"
+              />
               <button
                 type="button"
                 onClick={() => removeFile(file, "photos")}
@@ -122,22 +116,17 @@ export const CreatePostForm = () => {
           ))}
         </div>
 
-        <div
-          {...getVideoRootProps({
-            className:
-              "border-dashed border-2 border-gray-400 p-4 rounded-lg text-center cursor-pointer mb-4",
-          })}
-        >
-          <input {...getVideoInputProps()} />
-          <p>Перетащите видео сюда или нажмите для загрузки</p>
-        </div>
         <div className="mb-4">
           {videos.map((file) => (
             <div
               key={file.name}
               className="flex justify-between items-center mb-2"
             >
-              <p>{file.name}</p>
+              <video
+                src={URL.createObjectURL(file)}
+                controls
+                className="w-32 h-32 object-cover mr-4"
+              />
               <button
                 type="button"
                 onClick={() => removeFile(file, "videos")}
@@ -149,15 +138,6 @@ export const CreatePostForm = () => {
           ))}
         </div>
 
-        <div
-          {...getFileRootProps({
-            className:
-              "border-dashed border-2 border-gray-400 p-4 rounded-lg text-center cursor-pointer mb-4",
-          })}
-        >
-          <input {...getFileInputProps()} />
-          <p>Перетащите файлы сюда или нажмите для загрузки</p>
-        </div>
         <div className="mb-4">
           {files.map((file) => (
             <div

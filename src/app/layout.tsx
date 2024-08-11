@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import { UserProvider } from "@/app/context/UserContext";
 import LeftMenu from "@/app/components/LeftMenu";
-import ProtectedRoute from "@/app/components/ProtectedRoute";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +21,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen flex flex-col`}>
+         <ThemeProvider>
+
         <UserProvider>
           <div className="w-full bg-white px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
             <Navbar />
@@ -36,6 +38,7 @@ export default function RootLayout({
             </div> */}
           </div>
         </UserProvider>
+         </ThemeProvider>
       </body>
     </html>
   );

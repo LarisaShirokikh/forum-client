@@ -1,11 +1,16 @@
-export interface IUser {
+export interface User {
+  firstName: string;
+  lastName: string;
+  about: string;
+  privacySettings: {};
   id: number;
   name: string;
+  
   avatar?: string;
   cover?: string;
   surname?: string;
   email: string;
-  password: string;
+  password?: string;
   description?: string;
   city?: string;
   baby?: number;
@@ -13,7 +18,7 @@ export interface IUser {
   website?: string;
   createdAt: Date;
   karma?: number;
-  roles: ("USER" | "MODERATOR" | "ADMIN" | "SUPERADMIN" | "ORGANIZATOR")[];
+  roles: ("Новичек" | "MODERATOR" | "ADMIN" | "SUPERADMIN" | "ORGANIZATOR")[];
   updatedAt: Date;
   reviews?: Review[];
   purchases?: Purchase[];
@@ -30,4 +35,15 @@ export interface IUser {
   likes?: Like[];
   products?: Product[];
   photos?: Photo[];
+}
+
+export interface UserContextType {
+  user: User | null;
+  setUser: (user: User | null) => void;
+  loading: boolean;
+  isLoginModalOpen: boolean;
+  openLoginModal: () => void;
+  closeLoginModal: () => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
 }

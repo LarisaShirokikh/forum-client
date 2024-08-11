@@ -6,6 +6,40 @@ html, body {
   height: 100%;
 }
 
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --navbar-bg: #f8f9fa;
+  --menu-bg: #e9ecef;
+  --post-bg: #ffffff; /* Добавлено */
+}
+
+[data-theme='dark'] {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --navbar-bg: #343a40;
+  --menu-bg: #495057;
+   --post-bg: #1e1e1e; /* Добавлено */
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Применение CSS-переменных к другим элементам */
+.navbar {
+  background-color: var(--navbar-bg);
+}
+
+.menu {
+  background-color: var(--menu-bg);
+}
+
+.post {
+  background-color: var(--post-bg); /* Добавлено */
+}
+
 .scrollbar-hide::-webkit-scrollbar{
   display: none;
 }
